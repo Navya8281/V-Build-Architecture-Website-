@@ -1,0 +1,377 @@
+<?php
+// include 'database.php';
+// include 'header.php';
+// if(isset($_POST['submit']))
+// {
+//    $email=$_POST['email'];
+//    $password=$_POST['password'];
+//   $qry="SELECT * FROM login WHERE l_email='$email' AND l_password='$password'";
+//   //var_dump($qry);
+//   if($stmt=mysqli_query($con,$qry))
+//   {
+//     //echo $r['l_usertype'];
+//     $r=mysqli_fetch_array($stmt);
+//     if($r['l_usertype']=="user")
+//     {
+//       echo "user";
+//     }
+//     elseif($r['l_usertype']=="architecture")
+//     {
+//       echo "architecture";
+//     }
+//     elseif($r['l_usertype']=="admin")
+//     {
+//       echo "admin";
+//     }    
+//     elseif($r['l_usertype']=="realestate broker")
+//     {
+//       echo "realestate broker";
+//     } 
+//   }
+// }
+?>
+
+<?php 
+session_start();
+include('database.php');
+    include ('header.php');
+
+if(isset($_POST['login']))
+{
+      $curdate= date("Y-m-d");
+  $date = strtotime("-7 day");
+ $bdate= date('Y-m-d', $date);
+
+
+        $sq="SELECT * FROM `real_booking` WHERE re_status='Booked' AND `re_date` <= '$bdate 12:21:05.240512' ";
+                  $result1 = $con->query($sq);
+                               while($row1= mysqli_fetch_array($result1))
+                                 {
+                 
+                    $rerl_id=$row1['rerl_id'];
+                
+
+                  }
+
+ $sql1="UPDATE `land_details` SET `status`='0' WHERE rl_id=$rerl_id";
+mysqli_query($con,$sql1);
+ $sql2="DELETE FROM `real_booking` WHERE rerl_id=$rerl_id";
+mysqli_query($con,$sql2);
+
+    $l_uname=$_POST['l_uname'];
+    $l_password=$_POST['l_password'];
+    $q="SELECT * FROM login where l_email='$l_uname' and l_password='$l_password'";
+    //var_dump($q);
+    $eqr=mysqli_query($con,$q);
+    $r=$eqr->fetch_assoc();
+    if($r)
+    {
+        if($r['l_usertype']=="admin" and $r['l_approve']=="Approved")
+        {
+        echo $l_id=$r['l_id'];
+        echo $_SESSION['l_id']=$l_id;
+        //header("Location:adminprofile.php");
+        //echo '<script language="javascript">alert("Successfuly Login")</script>';
+       echo "<script>window.location.replace('admin/userprofile.php');</script>";
+       }
+       else if($r['l_usertype']=="user" and $r['l_approve']=="Approved")
+       {
+        echo $l_id=$r['l_id'];
+        echo $_SESSION['l_id']=$l_id;
+        //header("Location:guideprofile.php");
+        echo "<script>window.location.replace('user/userprofile.php');</script>";
+       }
+       else if($r['l_usertype']=="Architecture" and $r['l_approve']=="Approved")
+       {
+         $l_id=$r['l_id'];
+         $_SESSION['l_id']=$l_id;
+        //header("Location:customerprofile.php");
+        echo "<script>window.location.replace('architecture/architectureprofile.php');</script>";
+       }
+        else if($r['l_usertype']=="realestate broker" and $r['l_approve']=="Approved")
+       {
+        echo $l_id=$r['l_id'];
+        echo $_SESSION['l_id']=$l_id;
+        //header("Location:guideprofile.php");
+        echo "<script>window.location.replace('realestate/realestateprofile.php');</script>";
+       }
+     
+      
+        
+        
+       else
+       {
+         $_SESSION['msg']="username and password mismatch";
+       }
+    }
+    else
+    {
+         $_SESSION['msg']="username and password mismatch";
+     
+    }
+}
+    
+?>
+
+
+
+
+ <div class="content-wrapper  js-content-wrapper">
+        <aside class="sidebar js-sidebar">
+          <div class="sidebar__cross">
+            <button class="button js-sidebar-close">
+              <i class="icon icon-cross"></i>
+            </button>
+          </div>
+
+          <div class="sidebar__header">
+            <div class="sidebar__logo">
+              <img src="img/general/logo-light.svg" alt="helix logo">
+            </div>
+
+            <h4 class="title">HELLIX</h4>
+            <p class="subtitle">AN-AWARD WINNING ARCHITECTURE COMPANY</p>
+          </div>
+
+         <div class="sidebar__instagram">
+            <h5 class="title">#hellix</h5>
+
+            <div class="instagram">
+
+              <a data-barba href="#" class="instagram__item">
+                <div class="instagram__image">
+                  <div class="ratio ratio-1:1 bg-image js-lazy" data-bg="img/main-sidebar/instagram/1.jpg"></div>
+                </div>
+
+                <div class="instagram__content">
+                  <i class="icon fa fa-instagram" aria-hidden="true"></i>
+                </div>
+              </a>
+
+              <a data-barba href="#" class="instagram__item">
+                <div class="instagram__image">
+                  <div class="ratio ratio-1:1 bg-image js-lazy" data-bg="img/main-sidebar/instagram/2.jpg"></div>
+                </div>
+
+                <div class="instagram__content">
+                  <i class="icon fa fa-instagram" aria-hidden="true"></i>
+                </div>
+              </a>
+
+              <a data-barba href="#" class="instagram__item">
+                <div class="instagram__image">
+                  <div class="ratio ratio-1:1 bg-image js-lazy" data-bg="img/main-sidebar/instagram/3.jpg"></div>
+                </div>
+
+                <div class="instagram__content">
+                  <i class="icon fa fa-instagram" aria-hidden="true"></i>
+                </div>
+              </a>
+
+              <a data-barba href="#" class="instagram__item">
+                <div class="instagram__image">
+                  <div class="ratio ratio-1:1 bg-image js-lazy" data-bg="img/main-sidebar/instagram/4.jpg"></div>
+                </div>
+ 
+                <div class="instagram__content">
+                  <i class="icon fa fa-instagram" aria-hidden="true"></i>
+                </div>
+              </a>
+
+              <a data-barba href="#" class="instagram__item">
+                <div class="instagram__image">
+                  <div class="ratio ratio-1:1 bg-image js-lazy" data-bg="img/main-sidebar/instagram/5.jpg"></div>
+                </div>
+
+                <div class="instagram__content">
+                  <i class="icon fa fa-instagram" aria-hidden="true"></i>
+                </div>
+              </a>
+
+              <a data-barba href="#" class="instagram__item">
+                <div class="instagram__image">
+                  <div class="ratio ratio-1:1 bg-image js-lazy" data-bg="img/main-sidebar/instagram/6.jpg"></div>
+                </div>
+
+                <div class="instagram__content">
+                  <i class="icon fa fa-instagram" aria-hidden="true"></i>
+                </div>
+              </a>
+
+            </div>
+          </div>
+
+          <div class="sidebar__info">
+            <h5 class="title">Let's Start a Project</h5>
+            <p class="text">
+              T: +1 333 436 1747<br>
+              M: hi@hellix.com
+            </p>
+            <p class="text">
+              A: PO Box 16122 Collins Street West<br>
+              Victoria 8007 Australia
+            </p>
+
+            <button class="button -simple">GET DIRECTIONS</button>
+          </div>
+
+          <div class="sidebar__socials">
+            <div class="item">
+              <a data-barba href="#">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="item">
+              <a data-barba href="#">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="item">
+              <a data-barba href="#">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="item">
+              <a data-barba href="#">
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </aside> 
+
+
+         <section class="page-masthead">
+          <div data-parallax="0.6" class="page-masthead__bg">
+            <div data-parallax-target class="bg-image js-lazy" data-bg="img/backgrounds/6.jpg"></div>
+          </div>
+
+          <div class="container">
+            <div class="page-masthead__content">
+              <div class="row justify-content-between md:justify-content-center align-items-center">
+                <div class="col-lg-9 col-md-10">
+                  <div data-anim="slide-up delay-1">
+                    <div class="page-masthead__subtitle">Explore the features</div>
+                    <div class="page-masthead__back_title">LOGIN</div>
+                    <h1 class="page-masthead__title text-white">Login</h1>
+                  </div>
+                </div>
+
+                <!-- <div class="col-auto">
+                  <div data-anim="slide-up delay-1" class="page-masthead-bread text-white md:mt-24">
+                    <a data-barba href="index.php" class="page-masthead-bread__item">Home</a>
+                    /
+                    <a data-barba href="#" class="page-masthead-bread__item ">Login</a>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+ 
+         <section class="layout-pt-lg layout-pb-xl md:pb-64">
+          <div class="container">
+            <div class="row no-gutters">
+              <div class="col-xl-7 col-lg-7 z-1">
+                
+              </div>
+
+               <div class="col-xl-4 col-lg-4 offset-lg-1">
+                <div class="md:pt-40 md:pb-40">
+                  <div class="sectionHeading -left-line">
+                    <span class="sectionHeading__subtitle">WELCOME TO</span>
+                    <h2 class="sectionHeading__title">Login to Your Account</h2>
+                  </div>
+ 
+                   <div class="text-sm text-black leading-4xl mt-48 md:mt-16">
+                    <p>T: +1 333 436 1747</p>
+                    <p>M: hi@hellix.com</p>
+                    <br>
+                    <p>A: PO Box 16122 Collins Street West</p>
+                    <p>Victoria 8007 Australia</p>
+                  </div>
+ 
+         <div class="sectionHeading__button mt-24 md:mt-20">
+                    <a data-barba href="#" class="button -simple text-black">Sign In With</a>
+                  </div>
+
+                  <div class="socialsSection mt-24">
+                    <a data-barba href="#" class="text-accent">
+                      <i class="fa fa-facebook" aria-hidden="true"></i>
+                    </a>
+                    <a data-barba href="#" class="text-accent">
+                      <i class="fa fa-twitter" aria-hidden="true"></i>
+                    </a>
+                    <a data-barba href="#" class="text-accent">
+                      <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </a>
+                    <a data-barba href="#" class="text-accent">
+                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+              </div> 
+
+              <div class="col-xl-7 col-lg-7 offset-lg-5 z-5">
+                <div class="mt-minus-xl md:mt-0">
+                  <div class="sectionHeading -left-line bg-dark py-48 px-48 md:py-20 md:px-20">
+                    <span class="sectionHeading__subtitle text-white">Hey,
+                    Login Now</span>
+                    <h2 class="sectionHeading__title text-white">Login To Your Account</h2>
+
+                    <form class="" action="#" method="POST">
+                      <div class="col-12">
+                        <div class="js-input-group">
+                          <span class="form__error"></span>
+                        </div>
+                      </div>
+                      <div class="col-12 mt-20">
+                        <div class="js-input-group">
+                          <span class="form__error"></span>
+                        </div>
+                      </div>
+                      <div class="col-12 mt-20">
+                        <div class="js-input-group">
+                          <input type="email" name="l_uname" data-required placeholder="Email">
+                          <span class="form__error"></span>
+                        </div>
+                      </div>
+                      <div class="col-12 mt-20">
+                        <div class="js-input-group">
+                          <input type="password" name="l_password" placeholder="Password">
+                        </div>
+                      </div>
+                      <div class="col-12 mt-20">
+                        <div class="js-input-group">
+                          <a href="forgotpass.php" style="color:white;">Forgot Password</a>
+                        </div>
+                      </div>
+
+                      <div class="col-12 ajax-form-alert js-ajax-form-alert">
+                        <div class="ajax-form-alert__content"></div>
+                      </div>
+
+                      <div class="col-12 mt-32">
+                        <button type="submit" name="login" class="button -md -accent text-white">
+                          SIGN IN
+                        </button>
+                      </div>
+                       <?php
+            if(isset($_SESSION['msg']))
+            {
+                echo "<div class='alert alert_danger' style='background-color:skyblue';><front color='green'>".$_SESSION['msg']."</font></div>";
+                unset($_SESSION['msg']);
+            }
+            ?>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+       <?php
+include 'footer.php';
+?>
